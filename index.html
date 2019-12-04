@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="kickstart.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="doctree.css">
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Doc Tree</title>
+  </head>
+
+  <body>
+    <nav>
+      <span class="title">Doc Tree</span>
+      <iframe class="github_stars" src="https://ghbtns.com/github-btn.html?user=adamjgrant&repo=Mozart&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+    </nav>
+
+    <article data-attach="about/about">
+      <h1>About</h1>
+      <p>Doc Tree is a simple tool to write expanding prose.</p>
+      <label>
+        <input id="show-tests" type="checkbox" />
+        Show Tests
+      </label>
+      <div id="test_results" hidden class="test_results">
+        <h1>Test results</h1> 
+        <p>
+          ⚪️ <span>0</span> Total,
+          🟢 <span>0</span> Passing,
+          🔴 <span>0</span> Failing,
+        </p>
+      </div>
+    </article>
+
+    <script src="doctree.js"></script>
+    <script src="docs.js"></script>
+    <link rel="stylesheet" href="tomorrow-night-eighties.min.css">
+    <script src="highlight.js"></script>
+  </body>
+</html>

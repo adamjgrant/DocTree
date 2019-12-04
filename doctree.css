@@ -1,0 +1,27 @@
+ul.doctree {
+  padding-left: 0;
+}
+
+ul.doctree li {
+  list-style: none;
+}
+
+ul.doctree ul {
+  border-left: 3px solid gray;
+  padding: 10px;
+  padding-right: 0px;
+  margin-left: 5px;
+}
+
+ul.doctree li.link > a:after {
+  display: block;
+  content: "More";
+}
+
+ul.doctree > li > ul:not(.visible) > li:not(.link) {
+  display: none;
+}
+
+ul.doctree ul.visible > li.link a:after {
+  content: "Less";
+}
