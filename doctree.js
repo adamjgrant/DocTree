@@ -1,31 +1,49 @@
 class DocTree {
-  constructor(parent_element) {
+  constructor(parent_element, nested) {
     this.parent_element = parent_element;
+    this.nested = nested;
+    this.initiate_sub_sections();
+  }
+
+  initiate_sub_sections() {
+    console.info(this.sub_sections());
+    this.sub_sections().forEach(sub_section => {
+      (sub_section => {
+        if (!this.nested) return;
+        sub_section.parent_element.prepend(this.link_element());
+      })(sub_section);
+    });
+  }
+
+  link_element() {
+    var link = document.createElement("li");
+    link.classList.add(".doctree-expand");
+    link.innerHTML = "<a href='#'>";
+    return link;
   }
   
   child_nodes() {
+    if (typeof(this.parent_element.childNodes) != 'object') return [];
     return Array.prototype.slice.call(this.parent_element.childNodes);
   }
   
   sub_sections() {
-    // TODO We need to also know the position of the subsections relative to the content they're found in
-
+    console.log(this.parent_element);
+    console.log(this.child_nodes());
+    console.log(".....");
     return this.child_nodes().filter(childNode => { 
-      return (typeof(childNode.querySelectorAll) != 'function');
+      return (typeof(childNode.querySelectorAll) == 'function');
     }).map(childNode => {
-      return childNode.querySelectorAll("ul");
-    }).flat().map(doc_tree => {
-      return new DocTree(doc_tree);
+      return Array.prototype.slice.call(childNode.querySelectorAll("ul"));
+    }).flat().flat().map(doc_tree => {
+      return new DocTree(doc_tree, true);
     })
-  }
-
-  html() {
-    // return the full markup for the doc tree.
-  }
+  } 
 };
 
-// var full_tree,
-//    root_tree;
-
-// root_tree  = document.getElementById('doc_tree');
-// full_tree = new DocTree(root_tree);
+// BASIC USAGE
+//
+// const doctrees = document.querySelectorAll(".doctree");
+// doctrees.forEach(doctree => {
+//   new DocTree(doctree)
+// })

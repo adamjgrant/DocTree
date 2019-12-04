@@ -17,8 +17,13 @@ doc({
       links_in_second_level = first_level.querySelectorAll("li.doctree-expand").length;
       links_in_third_level  = first_level.querySelectorAll("li.doctree-expand").length;
 
+      const doctrees = document.querySelectorAll(".doctree");
+      doctrees.forEach(doctree => {
+        new DocTree(doctree);
+      });
+
       return [
-        assert("First level nest has links", links_in_first_level, 1)
+        assert("First level does not have links", links_in_first_level, 0)
         , assert("Second level nest has links", links_in_second_level, 1)
         , assert("Third level nest has links", links_in_third_level, 1)
       ]
