@@ -2,54 +2,60 @@ doc({
   attach_id: "about/about",
   tests: [
     test("ul structure gets links above nested ULs", () => {
+      const doctree1 = document.querySelector('.doctree#first_level'),
+            doctree2 = document.querySelector('.doctree#second');
 
+      var links_in_first_level,
+          links_in_second_level,
+          links_in_third_level;
+
+      const first_level  = doctree1
+            second_level = doctree2.querySelector("#second_level"),
+            third_level  = doctree2.querySelector("#third_level");
+
+      links_in_first_level  = first_level.querySelectorAll("li.doctree-expand").length;
+      links_in_second_level = first_level.querySelectorAll("li.doctree-expand").length;
+      links_in_third_level  = first_level.querySelectorAll("li.doctree-expand").length;
 
       return [
-        assert("First level nest has links", "", "")
-        , assert("Second level nest has links", "", "")
-        , assert("Third level nest has links", "", "")
+        assert("First level nest has links", links_in_first_level, 1)
+        , assert("Second level nest has links", links_in_second_level, 1)
+        , assert("Third level nest has links", links_in_third_level, 1)
       ]
     }, `
-      <ul id="doctree">
+      <ul class="doctree" id="first_level">
         <li>
-          <h1>My long article</h1>
-          <p>There are many things I want to talk about, like the Civil war.</p>
+          <h1>First Level</h1>
+          <p>...</p>
+        </li> 
+      </ul>
+
+      <ul class="doctree" id="second"> 
+        <li>
+          <h1>First Level</h1>
+          <p>...</p>
+          <ul id="second_level">
+            <li> 
+              <h1>Second Level</h1>
+              <p>...</p>
+            </li>
+          </ul>
+        </li> 
+
+        <li>
+          <h1>First Level</h1>
+          <p>...</p>
           <ul>
-            <li>
-              <h1>Civil War</h1>
-
-              <p>Here's a little bit about the civil war...</p>
-
-              <p>Abraham Lincoln was assassinated, for example</p> 
-              <ul>
-                <li>
-                  <h1>Assassination of Abraham Lincoln</h1>
-
-                  <p>Here's a little bit about the assassination of Abraham Lincoln.</p> 
-                 </li>
+            <li> 
+              <h1>Second Level</h1>
+              <p>...</p>
+              <ul id="third_level">
+                <li>...</li>
               </ul>
-
-             </li>
+            </li>
           </ul>
+        </li> 
 
-          <p>But I'm also very interested in WWI</p>
-          <ul>
-            <li>
-              <h1>World War I</h1>
-
-              <p>Here's a little bit about the WWI...</p>
-             </li>
-          </ul>
-
-          <p>and WW2</p>
-          <ul>
-            <li>
-              <h1>World War II</h1>
-
-              <p>Here's a little bit about WWII...</p>
-             </li>
-          </ul>
-        </li>
       </ul>
     `)
   ]
