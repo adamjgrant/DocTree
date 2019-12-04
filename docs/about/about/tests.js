@@ -2,8 +2,8 @@ doc({
   attach_id: "about/about",
   tests: [
     test("ul structure gets links above nested ULs", () => {
-      const doctree1 = document.querySelector('.doctree#first_level'),
-            doctree2 = document.querySelector('.doctree#second');
+      const doctree1 = document.getElementById('first_level'),
+            doctree2 = document.getElementById('second');
 
       var links_in_first_level,
           links_in_second_level,
@@ -13,14 +13,15 @@ doc({
             second_level = doctree2.querySelector("#second_level"),
             third_level  = doctree2.querySelector("#third_level");
 
-      links_in_first_level  = first_level.querySelectorAll("li.doctree-expand").length;
-      links_in_second_level = first_level.querySelectorAll("li.doctree-expand").length;
-      links_in_third_level  = first_level.querySelectorAll("li.doctree-expand").length;
-
       const doctrees = document.querySelectorAll(".doctree");
       doctrees.forEach(doctree => {
         new DocTree(doctree);
       });
+
+      links_in_first_level  = first_level.querySelectorAll("li.doctree-expand").length;
+      links_in_second_level = second_level.querySelectorAll("li.doctree-expand").length;
+      links_in_third_level  = third_level.querySelectorAll("li.doctree-expand").length;
+
 
       return [
         assert("First level does not have links", links_in_first_level, 0)

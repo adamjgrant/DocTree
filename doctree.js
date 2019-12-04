@@ -6,18 +6,18 @@ class DocTree {
   }
 
   initiate_sub_sections() {
-    console.info(this.sub_sections());
     this.sub_sections().forEach(sub_section => {
+      if (!this.nested) return;
       (sub_section => {
-        if (!this.nested) return;
         sub_section.parent_element.prepend(this.link_element());
+        console.log(sub_section.parent_element);
       })(sub_section);
     });
   }
 
   link_element() {
     var link = document.createElement("li");
-    link.classList.add(".doctree-expand");
+    link.classList.add("doctree-expand");
     link.innerHTML = "<a href='#'>";
     return link;
   }
@@ -28,16 +28,13 @@ class DocTree {
   }
   
   sub_sections() {
-    console.log(this.parent_element);
-    console.log(this.child_nodes());
-    console.log(".....");
     return this.child_nodes().filter(childNode => { 
       return (typeof(childNode.querySelectorAll) == 'function');
     }).map(childNode => {
       return Array.prototype.slice.call(childNode.querySelectorAll("ul"));
     }).flat().flat().map(doc_tree => {
       return new DocTree(doc_tree, true);
-    })
+    });
   } 
 };
 
