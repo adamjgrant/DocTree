@@ -9,33 +9,33 @@ class DocTree {
   initiate_sub_sections() {
     this.sub_sections().forEach(sub_section => {
       (sub_section => {
-        sub_section.parent_element.prepend(this.link_element());
+        var ul = sub_section.parent_element;
+        ul.prepend(this.link_element());
+        ul.classList.remove("visible");
+        console.log(ul);
       })(sub_section);
     });
   }
 
   bind_links() {
     this.sub_sections().forEach(sub_section => {
-        var expander     = sub_section.parent_element.querySelector(":scope > li.doctree-expand a"),
-            clickHandler = (e) => {
-              console.log("click handler fired");
-              var link = e.target,
-                  ul   = link.parentNode.parentNode;
+      var expander     = sub_section.parent_element.querySelector(":scope > li.doctree-expand > a");
 
-              if (ul.classList.contains('visible')) {
-                ul.classList.remove('visible');
-              }
-              else {
-                ul.classList.add('visible');
-              }
-              e.stopPropagation();
-              return e.preventDefault();
-            }
+      expander.addEventListener("click", (e) => {
+        ((sub_section, expander, e) => { 
+          var link = e.target,
+              ul   = link.parentNode.parentNode;
 
-      ((sub_section, expander, clickHandler) => {
-        expander.addEventListener("click", clickHandler);
-        console.log(this.parent_element, expander);
-      })(sub_section, expander, clickHandler);
+          if (ul.classList.contains('visible')) {
+            ul.classList.remove('visible');
+          }
+          else {
+            ul.classList.add('visible');
+          }
+          e.stopPropagation();
+          return e.preventDefault();
+        })(sub_section, expander, e);
+      });
     });
   }
 

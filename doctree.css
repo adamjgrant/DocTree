@@ -18,7 +18,7 @@ ul.doctree li.doctree-expand > a:after {
   content: "More";
 }
 
-ul.doctree > li > ul:not(.visible) > li:not(.doctree-expand) {
+ul.doctree ul:not(.visible) > li:not(.doctree-expand) {
   display: none;
 }
 
