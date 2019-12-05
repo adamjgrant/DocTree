@@ -16,21 +16,26 @@ class DocTree {
 
   bind_links() {
     this.sub_sections().forEach(sub_section => {
-      (sub_section => {
-        var expander     = sub_section.parent_element.querySelector("li.doctree-expand"),
+        var expander     = sub_section.parent_element.querySelector(":scope > li.doctree-expand a"),
             clickHandler = (e) => {
+              console.log("click handler fired");
               var link = e.target,
-                  ul   = link.parentNode;
+                  ul   = link.parentNode.parentNode;
 
-              if (Array.prototype.slice.call(ul.classList).indexOf('visible') > -1) {
+              if (ul.classList.contains('visible')) {
                 ul.classList.remove('visible');
               }
               else {
                 ul.classList.add('visible');
               }
+              e.stopPropagation();
+              return e.preventDefault();
             }
+
+      ((sub_section, expander, clickHandler) => {
         expander.addEventListener("click", clickHandler);
-      })(sub_section);
+        console.log(this.parent_element, expander);
+      })(sub_section, expander, clickHandler);
     });
   }
 
@@ -47,14 +52,15 @@ class DocTree {
   }
   
   sub_sections() {
-    if (this.sub_sects) return this.sub_sects;
-    this.sub_sects = this.child_nodes().filter(childNode => { 
-      return (typeof(childNode.querySelectorAll) == 'function');
-    }).map(childNode => {
-      return Array.prototype.slice.call(childNode.querySelectorAll(":scope > ul"));
-    }).flat().flat().map(doc_tree => {
-      return new DocTree(doc_tree);
-    });
+    if (!this.sub_sects) {
+      this.sub_sects = this.child_nodes().filter(childNode => { 
+        return (typeof(childNode.querySelectorAll) == 'function');
+      }).map(childNode => {
+        return Array.prototype.slice.call(childNode.querySelectorAll(":scope > ul"));
+      }).flat().flat().map(doc_tree => {
+        return new DocTree(doc_tree);
+      });
+    }
 
     return this.sub_sects
   } 

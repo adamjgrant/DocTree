@@ -2,8 +2,9 @@ doc({
   attach_id: "about/about",
   tests: [
     test("ul structure gets links above nested ULs", () => {
-      const doctree1 = document.getElementById('first_level'),
-            doctree2 = document.getElementById('second');
+      var test_sb  = document.getElementById('test-sandbox'),
+          doctree1 = test_sb.querySelector('#first_level'),
+          doctree2 = test_sb.querySelector('#second');
 
       var links_in_first_level,
           links_in_second_level,
@@ -17,7 +18,7 @@ doc({
             second_level = doctree2.querySelector("#second_level"),
             third_level  = doctree2.querySelector("#third_level");
 
-      const doctrees = document.querySelectorAll(".doctree");
+      const doctrees = test_sb.querySelectorAll(".doctree");
       doctrees.forEach(doctree => {
         new DocTree(doctree);
       });
@@ -36,19 +37,19 @@ doc({
         }
       }
 
-      var first_more_link = document.querySelector("#second #second_level > .doctree-expand");
+      var first_more_link = test_sb.querySelector("#second #second_level > .doctree-expand > a");
       eventFire(first_more_link, "click");
-      name_of_more1_link = Array.prototype.slice.call(first_more_link.parentNode.classList).join(" ");
+      name_of_more1_link = Array.prototype.slice.call(first_more_link.parentNode.parentNode.classList).join(" ");
 
       eventFire(first_more_link, "click");
-      name_of_more1_link2 = Array.prototype.slice.call(first_more_link.parentNode.classList).join(" ");
+      name_of_more1_link2 = Array.prototype.slice.call(first_more_link.parentNode.parentNode.classList).join(" ");
 
-      var second_more_link = document.querySelector("#second #third_level > .doctree-expand");
+      var second_more_link = test_sb.querySelector("#second #third_level > .doctree-expand > a");
       eventFire(second_more_link, "click");
-      name_of_more2_link = Array.prototype.slice.call(second_more_link.parentNode.classList).join(" ");
+      name_of_more2_link = Array.prototype.slice.call(second_more_link.parentNode.parentNode.classList).join(" ");
 
       eventFire(second_more_link, "click");
-      name_of_more2_link2 = Array.prototype.slice.call(second_more_link.parentNode.classList).join(" ");
+      name_of_more2_link2 = Array.prototype.slice.call(second_more_link.parentNode.parentNode.classList).join(" ");
 
       return [
         assert("First level does not have links", links_in_first_level, 0)

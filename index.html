@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="kickstart.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="doctree.css">
+    <script src="doctree.js"></script>
     <meta charset="utf8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>Doc Tree</title>
@@ -18,6 +19,7 @@
     <article data-attach="about/about">
       <h1>About</h1>
       <p>Doc Tree is a simple tool to write expanding prose.</p>
+
       <label>
         <input id="show-tests" type="checkbox" />
         Show Tests
@@ -30,9 +32,55 @@
           🔴 <span>0</span> Failing,
         </p>
       </div>
+
+      <ul class="doctree" id="main-example">
+        <li>
+          <h1>My long article</h1>
+          <p>There are many things I want to talk about, like the Civil war.</p>
+          <ul>
+            <li>
+              <h1>Civil War</h1>
+
+              <p>Here's a little bit about the civil war...</p>
+
+              <p>Abraham Lincoln was assassinated, for example</p> 
+              <ul>
+                <li>
+                  <h1>Assassination of Abraham Lincoln</h1>
+
+                  <p>Here's a little bit about the assassination of Abraham Lincoln.</p> 
+                 </li>
+              </ul>
+
+             </li>
+          </ul>
+
+          <p>But I'm also very interested in WWI</p>
+          <ul>
+            <li>
+              <h1>World War I</h1>
+
+              <p>Here's a little bit about the WWI...</p>
+             </li>
+          </ul>
+
+          <p>and WW2</p>
+          <ul>
+            <li>
+              <h1>World War II</h1>
+
+              <p>Here's a little bit about WWII...</p>
+             </li>
+          </ul>
+        </li>
+      </ul>
+      <script>
+        window.docReady = () => {
+          new DocTree(document.getElementById("main-example"));
+        };
+      </script>
     </article>
 
-    <script src="doctree.js"></script>
     <script src="docs.js"></script>
     <link rel="stylesheet" href="tomorrow-night-eighties.min.css">
     <script src="highlight.js"></script>

@@ -158,3 +158,5 @@ test_sandbox.id = "test-sandbox";
 test_sandbox.style.width = test_sandbox.style.height = 0;
 test_sandbox.style.overflow = "hidden";
 document.body.append(test_sandbox);
+
+docReady();
