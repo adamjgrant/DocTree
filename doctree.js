@@ -1,16 +1,13 @@
 class DocTree {
-  constructor(parent_element, nested) {
+  constructor(parent_element) {
     this.parent_element = parent_element;
-    this.nested = nested;
     this.initiate_sub_sections();
   }
 
   initiate_sub_sections() {
     this.sub_sections().forEach(sub_section => {
-      if (!this.nested) return;
       (sub_section => {
         sub_section.parent_element.prepend(this.link_element());
-        console.log(sub_section.parent_element);
       })(sub_section);
     });
   }
@@ -28,13 +25,15 @@ class DocTree {
   }
   
   sub_sections() {
-    return this.child_nodes().filter(childNode => { 
+    var sub_sects = this.child_nodes().filter(childNode => { 
       return (typeof(childNode.querySelectorAll) == 'function');
     }).map(childNode => {
-      return Array.prototype.slice.call(childNode.querySelectorAll("ul"));
+      return Array.prototype.slice.call(childNode.querySelectorAll(":scope > ul"));
     }).flat().flat().map(doc_tree => {
-      return new DocTree(doc_tree, true);
+      return new DocTree(doc_tree);
     });
+
+    return sub_sects
   } 
 };
 
