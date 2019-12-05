@@ -7,7 +7,11 @@ doc({
 
       var links_in_first_level,
           links_in_second_level,
-          links_in_third_level;
+          links_in_third_level,
+          name_of_more1_link,
+          name_of_more1_link2,
+          name_of_more2_link,
+          name_of_more2_link2;
 
       const first_level  = doctree1
             second_level = doctree2.querySelector("#second_level"),
@@ -22,11 +26,38 @@ doc({
       links_in_second_level = second_level.querySelectorAll("li.doctree-expand").length;
       links_in_third_level  = third_level.querySelectorAll("li.doctree-expand").length;
 
+      function eventFire(el, etype){
+        if (el.fireEvent) {
+          el.fireEvent('on' + etype);
+        } else {
+          var evObj = document.createEvent('Events');
+          evObj.initEvent(etype, true, false);
+          el.dispatchEvent(evObj);
+        }
+      }
+
+      var first_more_link = document.querySelector("#second #second_level > .doctree-expand");
+      eventFire(first_more_link, "click");
+      name_of_more1_link = Array.prototype.slice.call(first_more_link.parentNode.classList).join(" ");
+
+      eventFire(first_more_link, "click");
+      name_of_more1_link2 = Array.prototype.slice.call(first_more_link.parentNode.classList).join(" ");
+
+      var second_more_link = document.querySelector("#second #third_level > .doctree-expand");
+      eventFire(second_more_link, "click");
+      name_of_more2_link = Array.prototype.slice.call(second_more_link.parentNode.classList).join(" ");
+
+      eventFire(second_more_link, "click");
+      name_of_more2_link2 = Array.prototype.slice.call(second_more_link.parentNode.classList).join(" ");
 
       return [
         assert("First level does not have links", links_in_first_level, 0)
         , assert("Second level nest has links", links_in_second_level, 1)
         , assert("Third level nest has links", links_in_third_level, 1)
+        , assert("Clicking on 'more' expands", name_of_more1_link, "visible")
+        , assert("Clicking on 'more' again contracts", name_of_more1_link2, "")
+        , assert("Clicking on 'more' on additional level expands", name_of_more2_link, "visible")
+        , assert("Clicking on 'more' on additional level again contracts", name_of_more2_link2, "")
       ]
     }, `
       <ul class="doctree" id="first_level">

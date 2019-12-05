@@ -13,15 +13,15 @@ ul.doctree ul {
   margin-left: 5px;
 }
 
-ul.doctree li.link > a:after {
+ul.doctree li.doctree-expand > a:after {
   display: block;
   content: "More";
 }
 
-ul.doctree > li > ul:not(.visible) > li:not(.link) {
+ul.doctree > li > ul:not(.visible) > li:not(.doctree-expand) {
   display: none;
 }
 
-ul.doctree ul.visible > li.link a:after {
+ul.doctree ul.visible > li.doctree-expand a:after {
   content: "Less";
 }

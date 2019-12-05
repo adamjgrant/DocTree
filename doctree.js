@@ -2,12 +2,34 @@ class DocTree {
   constructor(parent_element) {
     this.parent_element = parent_element;
     this.initiate_sub_sections();
+    this.bind_links();
+    this.sub_sects = false;
   }
 
   initiate_sub_sections() {
     this.sub_sections().forEach(sub_section => {
       (sub_section => {
         sub_section.parent_element.prepend(this.link_element());
+      })(sub_section);
+    });
+  }
+
+  bind_links() {
+    this.sub_sections().forEach(sub_section => {
+      (sub_section => {
+        var expander     = sub_section.parent_element.querySelector("li.doctree-expand"),
+            clickHandler = (e) => {
+              var link = e.target,
+                  ul   = link.parentNode;
+
+              if (Array.prototype.slice.call(ul.classList).indexOf('visible') > -1) {
+                ul.classList.remove('visible');
+              }
+              else {
+                ul.classList.add('visible');
+              }
+            }
+        expander.addEventListener("click", clickHandler);
       })(sub_section);
     });
   }
@@ -25,7 +47,8 @@ class DocTree {
   }
   
   sub_sections() {
-    var sub_sects = this.child_nodes().filter(childNode => { 
+    if (this.sub_sects) return this.sub_sects;
+    this.sub_sects = this.child_nodes().filter(childNode => { 
       return (typeof(childNode.querySelectorAll) == 'function');
     }).map(childNode => {
       return Array.prototype.slice.call(childNode.querySelectorAll(":scope > ul"));
@@ -33,7 +56,7 @@ class DocTree {
       return new DocTree(doc_tree);
     });
 
-    return sub_sects
+    return this.sub_sects
   } 
 };
 
